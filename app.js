@@ -17,10 +17,10 @@ let lounaatArray = ['sodexo-ict', 'unica-dental', 'unica-delica', 'unica-deli-ph
 
 async function getLounaatData(lounaatArray) {
     
-        
-    
+    let o = 0;    
+    let lounasLista = {};
     for (const item of lounaatArray) {
-        let lounasLista = {};
+        
         lounasLista[item] = {};
      
         request('https://www.lounaat.info/lounas/'+item.replace('ä','a').replace('ö','o')+'/turku', async function (error, response, html) {
@@ -33,21 +33,38 @@ async function getLounaatData(lounaatArray) {
                 
                 
             });
-            await console.log(lounasLista);
-            lounaatData = lounasLista;
-            formatAndSendData(lounaatData);
+            
+            
+            o++;
+            if (o == lounaatArray.length) {
+                console.log(lounasLista);
+                lounaatData = lounasLista;
+                formatAndSendData(lounaatData);
+            }
             } else {
                 console.log(error + ' ' + response.statusCode);
             }
         });
         
     }
+    
+    
    
 }
 
 
 function formatAndSendData(data) {
-  JSON.stringify(data);
+ for (var item in data) {
+     
+     for (var subItem in data[item]) {
+         if (data[item][subItem] == '') {
+         delete data[item][subItem];
+         }
+     }
+     
+ }
+  data = JSON.stringify(data);
+  console.log(data);
   console.log('data sent');
 };
 
