@@ -1,4 +1,0 @@
-node v8.9.1
-npm v5.5.1
-request
-cheerio
