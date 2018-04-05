@@ -84,7 +84,7 @@ function deleteData(date, data) {
         }
     }
     lounaatData = data;
-    
+    //lähetä uusi data treactinn
 }
 
 async function runApp() {
