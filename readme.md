@@ -5,3 +5,6 @@ myös asenna kaikki muu
 npm install
 ja käytä uusinta nodea
 nvm install node
+
+Lisää g
+npm install webpack-dev-server -g
