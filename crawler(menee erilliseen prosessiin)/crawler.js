@@ -1,6 +1,10 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const schedule = require('node-schedule');
+const sqlite3 = require('sqlite3');
+
+	
+let db = new sqlite3.Database('db/lounasdb.db');
 let lounaatData = {};
 let lounaatArray = ["mauno-electrocity", "mauno", "sodexo-ict", "unica-dental", "china-jade", "snack-city", "alabama",
 "herkutus", "unica-delica", "unica-deli-pharma", "unica-mikro", "turun-upseerikerho",
@@ -68,8 +72,7 @@ function formatAndSendData(data) {
      }
      
  }
-    lounaatData = data;
-  data = JSON.stringify(data);
+  lounaatData = data;
   console.log(data);
   
   console.log('data sent');
@@ -94,8 +97,30 @@ function formatAndSendData(data) {
             deleteDataArray(['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'],lounaatData);
             break;
     }
+    data = JSON.stringify(lounaatData);
+    today = new Date();
+    //sqllähetä data
+    console.log(data);
+    let sqlLauseke = "INSERT INTO lounaat(pvm, info) VALUES(" + '"'+today.toString()+'"' + ', ' + "'"+data+"'"+')';
+    db.run(sqlLauseke, function(err) {
+    if (err) {
+      return console.log(err.message);
+    }
+
+    
+    
+    // get the last insert id
+    
+  });
+  var kakka = db.all("SELECT * FROM lounaat", function(err, rows) {
+      rows.forEach((row) => {
+    console.log(row.name);
+  });
+  });
+  db.close();
   
 }
+
 
 
 function deleteData(date, data) {
