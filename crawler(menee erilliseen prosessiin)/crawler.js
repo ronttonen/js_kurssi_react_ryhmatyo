@@ -68,10 +68,33 @@ function formatAndSendData(data) {
      }
      
  }
+    lounaatData = data;
   data = JSON.stringify(data);
   console.log(data);
-  //send data here
+  
   console.log('data sent');
+  let today = new Date().getDay();
+    switch(today){
+        case 2:
+            deleteDataArray(['Maanantai'],lounaatData);
+            break;
+        case 3:
+            deleteDataArray(['Maanantai', 'Tiistai'],lounaatData);
+            break;
+        case 4:
+            deleteDataArray(['Maanantai', 'Tiistai', 'Keskiviikko'],lounaatData);
+            break;
+        case 5:
+            deleteDataArray(['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai'],lounaatData);
+            break;
+        case 6:
+            deleteDataArray(['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', "Perjantai"],lounaatData);
+            break;
+        case 0:
+            deleteDataArray(['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'],lounaatData);
+            break;
+    }
+  
 }
 
 
@@ -87,44 +110,23 @@ function deleteData(date, data) {
     //lähetä uusi data treactinn
 }
 
+function deleteDataArray(date, data){
+    for (var i = 0; i < date.length; i++) {
+    for (var item in data) {
+        for(var paiva in data[item]) {
+            if(paiva.includes(date[i])) {
+                delete data[item][paiva];
+            }
+        }
+        }
+        lounaatData = data;
+    }
+    console.log(lounaatData);
+}
+
 async function runApp() {
     getLounaatData(lounaatArray);
-    let today = new Date().getDay();
-    switch(today){
-        case 2:
-            deleteData('Maanantai');
-            break;
-        case 3:
-            deleteData('Maanantai');
-            deleteData('Tiistai');
-            break;
-        case 4:
-            deleteData('Maanantai');
-            deleteData('Tiistai');
-            deleteData('Keskiviikko');
-            break;
-        case 5:
-            deleteData('Maanantai');
-            deleteData('Tiistai');
-            deleteData('Keskiviikko');
-            deleteData('Torstai');
-            break;
-        case 6:
-            deleteData('Maanantai');
-            deleteData('Tiistai');
-            deleteData('Keskiviikko');
-            deleteData('Torstai');
-            deleteData('Perjantai');
-            break;
-        case 0:
-            deleteData('Maanantai');
-            deleteData('Tiistai');
-            deleteData('Keskiviikko');
-            deleteData('Torstai');
-            deleteData('Perjantai');
-            deleteData('Lauantai');
-            break;
-    }
+    
     var job = schedule.scheduleJob('00 30 05 * * 1', function () {
        getLounaatData(lounaatArray);
        console.log(job.nextInvocation());
