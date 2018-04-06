@@ -106,18 +106,16 @@ function formatAndSendData(data) {
     if (err) {
       return console.log(err.message);
     }
-
-    
-    
-    // get the last insert id
-    
   });
-  var kakka = db.all("SELECT * FROM lounaat", function(err, rows) {
+  db.all("SELECT * FROM lounaat WHERE oid = (SELECT MAX(oid) FROM lounaat)", function(err, rows) {
+      if (err) {
+          return console.log(err.message);
+      }
       rows.forEach((row) => {
-    console.log(row.name);
+    console.log(row.pvm);
   });
   });
-  db.close();
+  
   
 }
 
@@ -132,6 +130,14 @@ function deleteData(date, data) {
         }
     }
     lounaatData = data;
+    data = JSON.stringify(data);
+    let today = new Date();
+    let sqlLauseke = "INSERT INTO lounaat(pvm, info) VALUES(" + '"'+today.toString()+'"' + ', ' + "'"+data+"'"+')';
+    db.run(sqlLauseke, function(err) {
+    if (err) {
+      return console.log(err.message);
+    }
+    });
     //lähetä uusi data treactinn
 }
 
