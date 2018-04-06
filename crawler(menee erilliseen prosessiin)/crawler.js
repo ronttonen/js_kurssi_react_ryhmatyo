@@ -89,6 +89,42 @@ function deleteData(date, data) {
 
 async function runApp() {
     getLounaatData(lounaatArray);
+    let today = new Date().getDay();
+    switch(today){
+        case 2:
+            deleteData('Maanantai');
+            break;
+        case 3:
+            deleteData('Maanantai');
+            deleteData('Tiistai');
+            break;
+        case 4:
+            deleteData('Maanantai');
+            deleteData('Tiistai');
+            deleteData('Keskiviikko');
+            break;
+        case 5:
+            deleteData('Maanantai');
+            deleteData('Tiistai');
+            deleteData('Keskiviikko');
+            deleteData('Torstai');
+            break;
+        case 6:
+            deleteData('Maanantai');
+            deleteData('Tiistai');
+            deleteData('Keskiviikko');
+            deleteData('Torstai');
+            deleteData('Perjantai');
+            break;
+        case 0:
+            deleteData('Maanantai');
+            deleteData('Tiistai');
+            deleteData('Keskiviikko');
+            deleteData('Torstai');
+            deleteData('Perjantai');
+            deleteData('Lauantai');
+            break;
+    }
     var job = schedule.scheduleJob('00 30 05 * * 1', function () {
        getLounaatData(lounaatArray);
        console.log(job.nextInvocation());
