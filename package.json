@@ -10,15 +10,19 @@
     "react-dom": "^16.3.1",
     "react-scripts": "1.1.4",
     "request": "^2.85.0",
-    "sqlite3": "^4.0.0"
+    "sqlite3": "^4.0.0",
+    "yarn": "^1.5.1"
   },
   "scripts": {
-    "client": "cd client && yarn start",
+    "client": "yarn start",
     "server": "nodemon server.js",
     "build": "react-scripts build",
-    "start": "cd client && react-scripts start",
+    "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }

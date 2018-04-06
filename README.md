@@ -5,7 +5,7 @@ asenna node (kvg)
 asenna nvm, jos ei tullut noden mukana (kvg)
 
 asenna uusin node:
-nvm install node
+nvm install node (ei toimi miskalla. eli käytetään 9.11.1)
 
 npm install -g create-react-app
 create-react-app my-app
@@ -14,6 +14,7 @@ Saa kaikki dependenciet.
 
 Tämän jälkeen vaihda filut niihin, jotka löytyvät gitistä.
 
+clientti käyntiin npm start
 -------------------------------------------------------------------------------------------------------------------------------------
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
