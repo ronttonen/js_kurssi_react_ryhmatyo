@@ -1,5 +1,12 @@
 
-asennus ohje: 
+asennus ohje:
+
+asenna node (kvg)
+asenna nvm, jos ei tullut noden mukana (kvg)
+
+asenna uusin node:
+nvm install node
+
 npm install -g create-react-app
 create-react-app my-app
 
