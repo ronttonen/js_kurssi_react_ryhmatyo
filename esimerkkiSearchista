@@ -1,7 +1,7 @@
-//Tässä esimerrkki miten data bindingilla saa searchattua objectista ja näytettyä tulosta reaaliajassa. Aika hakkeroita jne, mut siit on hyvä alottaa.
-
 import React, { Component } from 'react';
 import './App.css';
+//axios hyvä ajax pyyntöihin tarvii asentaa npm install axios, lisätään packageen sit kanssa, jos tätä käytetään
+import axios from 'axios';
 
 const testObject = 
 { 'mauno-electrocity': 
@@ -128,11 +128,24 @@ class App extends Component {
   constructor() {
     super();
     this.state = {queryKeyword : '',
-      searchableItems : testObject
+      searchableItems : testObject //tähän pitää vaihtaa tyhjä ja mountissa laittaa oikea data
     };
     this.results = {};
     this.formattedResult = [];
   }
+  //haetaan data serveri apin avulla kun sivu aukeaa
+  //serverissä pitää vaika db:n avulla luoda aina json tiedosto, joka tarjotaan sitten api polun kautta
+  //ei mitään hajua toimiiko tä, mutta ainakin perusidea siinä, niinkun aina. Eli componentDidMount() tapahtuu kun sivu
+  //avataan, axios muuttaa jsonin automaattisesti objectiksi, ja se tallennetaan stateen, josta react sitä sitten voi
+  //manipuloida.
+  componenDidMount() {
+    axios.get('SERVERIAPINOSOITETÄHÄN.json').then(res => {
+      const lounasData = res;
+      this.state.searchableItems = lounasData;
+    });
+  }
+  
+  //paskaa algoritmii
   handleQuery = (e) => {
     this.results = {};
     this.setState({queryKeyword : e.target.value});
