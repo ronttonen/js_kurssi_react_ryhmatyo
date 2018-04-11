@@ -1,151 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
-//axios hyvä ajax pyyntöihin tarvii asentaa npm install axios, lisätään packageen sit kanssa, jos tätä käytetään
-import axios from 'axios';
+import data from './luonastiedot.json'
 
-const testObject = 
-{ 'mauno-electrocity': 
-   { 'Keskiviikkona 11.4.': 'Kahvila avoinna 8-13Lounas klo 10.30-13StreetfoodSalaattibuffetPannupizzat2 Palaa pizzaa + kahvi/teeSalaattibuffet + kahvi/teeKoko lounasvalikoima + kahvi/tee',
-     'Torstaina 12.4.': 'Kahvila avoinna 8-13Lounas klo 10.30-13StreetfoodSalaattibuffetPannupizzat2 Palaa pizzaa + kahvi/teeSalaattibuffet + kahvi/teeKoko lounasvalikoima + kahvi/tee',
-     'Perjantaina 13.4.': 'Kahvila avoinna 8-13Lounas klo 10.30-13StreetfoodSalaattibuffetPannupizzat2 Palaa pizzaa + kahvi/teeSalaattibuffetKoko lounasvalikoima + kahvi/tee' },
-  'mauno': 
-   { 'Keskiviikkona 11.4.': 'Lounas klo 10.30-13BuffetAvokeittiöSalaattibuffetin lämmin lisukeLounasbuffet 10,40 €Grillilounas alk. 10,40 €Salaattibuffet 2,20 €/ 100 grammaa.',
-     'Torstaina 12.4.': 'Louns klo 10.30-13BuffetAvokeittiöSalaattibuffetin lämmin lisukeLounasbuffet 10,40 €Grillilounas alk. 10,40 €Salaattibuffet 2,20 €/ 100 grammaa.',
-     'Perjantaina 13.4.': 'Lounas klo 10.30-13BuffetAvokeittiöSalaattibuffetin lämmin lisukeLounasbuffet 10,40 €Grillilounas alk. 10,40 €Salaattibuffet 2,20 €/ 100 grammaa.' },
-  'sodexo-ict': 
-   { 'Keskiviikkona 11.4.': 'Pippurihärkää ja keitettyä perunaa   g      l   Intialainen linssi-kasvishöystö   g    m Broilerin rintafilettä, mojokastiketta ja patatas bravas   g    m Curry-kanakeittoa   g      l   Hedelmäinen salaatti halloumilla tai paahtopaistilla   g  Köyhät ritarit',
-     'Torstaina 12.4.': 'Broilerin rintafilettä sitruunakastikkeessa ja keitettyä riisiä   g      l   Kasvispaella   g  Paistettua kalkkunaa ja paahdettua vehnää    l   Hernekeittoa ja pannukakkuaTacosalaatti broilerilla tai katkaravuilla   g  Pannukakkua ja hilloa',
-     'Perjantaina 13.4.': 'Kinkkupastaa    l   Falafel-pyörykät tomaattikastikkeessa    g    m Bratwurstia, cajun kastiketta ja valkosipuliperunoita   g      l   Bataatti-palsternakkasosekeittoa   g    m Juustopatonkia ja salaattia    l   ' },
-  'unica-dental': 
-   { 'Keskiviikkona 11.4.': 'Aasialainen broiler-kasvisnuudeli*Kasviskevätkääryleet, chilikastike*Vegan: massaman curry*Keitto: paahdettu paprikakeitto*Deli: chililohta, kasvikset, jogurttikastikeJälkiruoka: hedelmäsalaatti kookoskermallaKahvilinjastosta: salaattibuffet, keitto',
-     'Torstaina 12.4.': 'Lohi-kasviscurryQuorn-kasvispannu*Keitto: korealainen kimchikeittoDeli: broileri-feta-rucolapizzaJälkiruoka: ohukaiset kookos-banaanitäytteellä, suolakinuskikastikeKahvilinjastosta: salaattibuffet',
-     'Perjantaina 13.4.': 'Chili con carne, riisi*Tahu goreng*Keitto: tomaattinen linssikeitto**Deli: ylikypsää härkää punacurrykastikkeessa, paahdetut pavut, basmati riisiJälkiruoka: banaanilassi*Kahvilinjastosta: salaattibuffet' },
-  'china-jade': 
-   { 'Keskiviikkona 11.4.': 'Friteerattua possua hapanimelã¤kastikkeessaKanaa inkivã¤ã¤rikastikkeessaHã¤rã¤nlihaa osterikastikkeessaSpecial sisã¤ltã¤ã¤ pã¤ivã¤n 1, 2 ja 3 lounaatVihannekset chilikastikkeessaNuudeleita, porsaanlihaaPaistettu vietnamilainen riisinuudeli katkarapuja',
-     'Torstaina 12.4.': 'Friteerattua mustekalaa hapanimelã¤kastikkeessaKanaa kung poHã¤rã¤nlihaa pekingSpecial sisã¤ltã¤ã¤ pã¤ivã¤n 1, 2 ja 3 lounaatVihannekset szechuanPaistettuja riisi, katkarapuja curryPaistettu vietnamilainen riisinuudeli grillipossu',
-     'Perjantaina 13.4.': 'Friteerattua kanaa hapanimelã¤kastikkeessaPorsaanlihaa currykastikkeessaHã¤rã¤nliha ja vihanneksiaSpecial sisã¤ltã¤ã¤ pã¤ivã¤n 1, 2 ja 3 lounaatVihannekset pekingPaistettuja nuudeleita ja hã¤rã¤nlihaaPaistettu vietnamilainen riisinuudeli kana' },
-  'snack-city': 
-   { 'Keskiviikkona 11.4.': 'Kotiruokalounas: broilerinkoipia, tomaattiriisiä ja majoneesikastikettaKeittolounas: lihakeittoaSalaattilounas: tomaatti-mozzarellasalaattiaJälkiruoka: tyrnipannacottaa',
-     'Perjantaina 13.4.': 'Kotiruokalounas: hapan-imeläpossua ja riisiäKeittolounas: metsäsienikeittoaSalaattilounas: pekonimunakasta ja salaattiaJälkiruoka: valkosuklaamoussea' },
-  alabama: 
-   { 'Keskiviikkona 11.4.': 'Alkuruokana: tomaatti-mozzarellasalaattiaPääruokana: katkarapu-kookoscurrya tai hirvimureketta, kermakastiketta ja paistettuja perunoitaHinta: 9 €/hlöJälkiruokana: tyrnipannacottaaHinta: 2,50 €/hlö',
-     'Torstaina 12.4.': 'Alkuruokana: katkarapusalaattiaPääruokana: linssitäytteisiä kesäkurpitsoja ja tomaattikastiketta tai naudanpaistia, sienikastiketta ja juuresperunasosettaHinta: 9 €/hlöJälkiruokana: puolukka-vaniljakerroskiisseliä ja kaurakeksiHinta: 2,50 €/hlö' },
-  herkutus: 
-   { 'Keskiviikkona 11.4.': 'Kaali-kasviskeittoKeittolounas 8,00 € sis. salaatin, keiton ja kahvin.',
-     'Torstaina 12.4.': 'SavuporokeittoKeittolounas 8,00 € sis. salaatin, keiton ja kahvin.',
-     'Perjantaina 13.4.': 'Bataatti-vuohenjuustokeittoKeittolounas 8,00 € sis. salaatin, keiton ja kahvin.' },
-  'unica-delica': 
-   { 'Keskiviikkona 11.4.': 'Linja1: pineapple thai chicken, riisi*Linja1: lihapyörykät tomaattikastikkeessa, peruna*Linja2: tahu goreng indonesia*Linja2: pestolohta sis. pähkinää!, peruna, voiporkkanat, tillikermaviili*Smoothie: boostaava mango-chiasmoothie',
-     'Torstaina 12.4.': 'Linja1: valkosipulipaahdettu broilerinkoipi, riisi*Linja1: kookos-wasabimaustetut uunisilakat*Linja2: feta-lehtipinaattipizza*Linja2: rullakebab, jalapenot, jogurttikastike, tomaatti-sipuliaExtra: talon virkistävä: kylmä vihreä tee',
-     'Perjantaina 13.4.': 'Linja1: aasialainen jauhelihakastike ja nuudelia*Linja1: kaalikääryleitä smetanassa haudutettuna, peruna, puolukkahillo*Linja2: tofua punaisessa currykastikeessa, riisi*Linja2: paahdettua broilerinfilettä halloumilla, bearnaisekastike, riisi' },
-  'unica-deli-pharma': 
-   { 'Keskiviikkona 11.4.': 'Deli: teriyakikanaa, aasialainen riisi, pikkelöidyt kasvikset*Bistro: riistapyörykät, perunamuhennos, sokeripuolukkaa*Keittolounas: tom kha-keitto porsaanlihalla*',
-     'Torstaina 12.4.': 'Deli: naudan grillipihvi suoraan pannulta, viipaleperunat, höyryparsakaalia* huom! hinta.Bistro: seesampaahdettua kassleria, bataatti-perunasose, maapähkinävoi-kookoskastike*Keittolounas: aasialainen jauhelihakeitto*',
-     'Perjantaina 13.4.': 'Deli: aasialainen ruokaisa patonki: bulgogi-maustettua mureaa possua, valkosipuli-inkiväärilohkoperunatBistro: pizza buffet: kinkku-, tonnikala- ja jauhelihaKeittolounas: ramen-keitto*' },
-  'unica-mikro': 
-   { 'Keskiviikkona 11.4.': 'Aasia/vegan: kevätkääryleet hapanimeläkastikkeessa*Aasia/deli: currykookosbroileria ja siitakesieniäPorsasburritoVegan: falafelpihvit ja avocadokastiketta*Karamellisoidut bataatitKabinetissa tarjolla:aasia/deli: currykookosbroileria ja siitakesieniä',
-     'Torstaina 12.4.': 'Aasia/deli: yakiniku-marinoitua naudan etuselkää ja japanilaista riisiä*Viktor elon pannupihvi jauhelihasta ja maalaislohkoperunatVegan/salad: tabouleh-salaattia ja pähkinöitä*Aasia: japchae eli korealainen paistettu riisinuudeliKaramellisoidut bataatit',
-     'Perjantaina 13.4.': 'Aasia/vegan: teriyakitofua ja wasabimajoneesiaAasia/deli: korealaiset ribsit ja kimchiä, olutKana marengo*Vegan: punajuuripihvit, omenakaurajugurttia*Vihreä matchaa-pirtelö' },
-  'turun-upseerikerho': 
-   { 'Keskiviikkona 11.4.': 'Basilikalla maustettua kesäkurpitsakeittoa    l     g  Teksasilaista chili con carnea    l     g   tacoja, juustodippiä ja riisiä    l     g  Pinaatti-tofupaistos    l     g  ja riisiäMarjaisa kaurapaistos    l   ja vaniljakastiketta',
-     'Torstaina 12.4.': 'Välimeren kalakeitto  m ; g  Naudanlihapullat mustapekkakastikkeessa    l     g  ja paistetut perunatJuustoinen kasvismoussaka    l     g  Köyhät ritarit    l    hilloa ja kermavaahtoa',
-     'Perjantaina 13.4.': 'Mustajuuri-maa-artisokkakeittoa    l     g  Porsaanleikkeitä    l    suppilovahverokastiketta    l     g  ja ristikkoperunatKylmäsavulohipastaa    l   Mustikka-valkosuklaamousse     vl      g  ' },
-  'sodexo-old-mill': 
-   { 'Keskiviikkona 11.4.': 'Rapeaksi paistettua kalaa remouladekastikkeella, sis. maitotuotteita, kananmunaa, vehnää    l   Täytetyt röstit, sis. maitotuotteita, kananmunaa   g       vl    Broilerinfile bbq-hunajakastikkeella, sis. soijaa  m tai raikkaalla salaattipedillä  m Pinaattikeitto, sis. maitotuotteita, selleriä   g      l   Paahtopaisti-  m    g  tai halloumi-salaatti   g  Kookoskiisseli, sis. maitotuotteita   g      l   Opiskelijat: rapeaksi paistettua kalaa 1 kpl/annos tai täytetyt röstit 3 kpl/annos',
-     'Torstaina 12.4.': 'Hernekeitto   g    m Kasvishernekeitto   g    m Kalkkunaa sweet and sour -kastikkeella tai raikkaalla salaattipedillä   g    m Pehmeän juustoinen mustajuurisosekeitto   g      l   Rosvopaisti-  m    g  tai cheddar-salaatti    l      g  Pannukakku     vl    Opiskelijat: hernekeitto tai kasvishernekeitto',
-     'Perjantaina 13.4.': 'Miedosti savustettua kassleria   g      l   Tomaatti-fetapasta    l   Pizza calzone     vl    Paprika-sulatejuustokeitto   g      l   Graavilohi-  m    g  tai parmesan-salaatti     vl       g  Raparperi-mansikkapaistosOpiskelijat: miedosti savustettua kassleria tai tomaatti-fetapasta' },
-  'sodexo-lemminkaisenkatu': 
-   { 'Keskiviikkona 11.4.': 'Thaimaalaista possunliha-wokkia    g    m Kalapyörykät ja minttu-jogurttikastiketta    g      l   Vegaaninen: falafel-pyörykät tomaattikastikkeessa    g    m Bataattisosekeitto   g      l   Aurajuusto-/ kalkkunasalaatti    l   Mariannerahka   g  ',
-     'Torstaina 12.4.': 'Broilerlasagnettea     l   Papu-vuohenjuusto pastaVegaaninen: papupasta  m Bratwurstia, cajun-kastiketta ja valkosipuliperunoita    g      l   Purjo-perunasosekeitto   g      l   Hallum- / broilerisalaattiSuklaa-salmiakkimousse    l   ',
-     'Perjantaina 13.4.': 'Kermaista kebab-pyttipannua    g      l   Vegaaninen: bataattia ja lehtikaalia maapähkinäkastikkeessa    g    m Porkkanasosekeittoa    g      l   Tonnikalasalaatti    l   ' },
-  'kupittaan-paviljonki': 
-   { 'Keskiviikkona 11.4.': 'Fenkolikeittoa   g      l   Broilerin wings chilimajoneesilla   g      l   Katkarapu-kampelarullat   g      l   Currywurstihodari    l   Kaura-omenapaistos',
-     'Torstaina 12.4.': 'Hernekeittoa   g      l   Silakkapihvit ja tillivoita   g      l   Kasvis kevätkääryleet ja nuudelia    l   Sitrusmarinoitua possua ja ryöpättyä pinaattia   g      l   Riisimuro-pannukakkua, kermavaahtoa ja hilloa',
-     'Perjantaina 13.4.': 'Kasvissosekeittoa ja inkiväärismetanaa   g      l   Talon lihapullat konjakkikastikkeessa    l   Broiler-pastaa    l   Yrttikuorrutettua lohta   g      l   Suklaakääretorttua' },
-  'unica-brygge': 
-   { 'Keskiviikkona 11.4.': 'Tortilla soija-kasvistäytteellä, vegaanista majoneesiaPapuja, tofua ja vihanneksia osterikastikkeessaQuornia kookos-sitruunaruohokastikkeessaLine 3; kikherne-purjososekeittoa , luomujuureslastujaTuorepuuroateriaProteiinibaari;Päivän jälkiruoka; hedelmäsalaattia itämaiseen tapaan',
-     'Torstaina 12.4.': 'KikhernepataaKasviskaalikääryleitä sis. mantelia, bataatti-perunamuusia ja puolukkahilloaLine 3; juusto-paprikakeittoa, suolakeksejäLine 3; riisipuuroa ja thai basilikalla maustettua mansikkasurvostaTuorepuuroateriaProteiinibaari;Päivän jälkiruoka;',
-     'Perjantaina 13.4.': 'Bombay kasvispizzaaKasviskevätkääryleitä, hapanimelää kastikettaLine 3; kasvisgulassikeittoa, juures-härkäpapupasteijaTuorepuuroateriaProteiinibaari;Päivän jälkiruoka;' },
-  'juvenes-monttu': 
-   { 'Keskiviikkona 11.4.': 'Ravintola monttu lounas - keskiviikko 11.4.2018JauhelihapihviDijonsinappi-kermakastike   g      l    k, se, vs, soijaYrttiviipaleperunat   g      l    k, vs, paprPaahdettuja porkkanoita kela,   g    m     l    ka, ve, kPapu - tuorekasvisgratiiniTomaatti-basilikasalsa   g    m     l    ka, ve, k, paprPaahdettuja porkkanoita kela,   g    m     l    ka, ve, k',
-     'Torstaina 12.4.': 'Ravintola monttu lounas - torstai 12.4.2018BolognesekastikePasta spagetti  m  kPaahdettuja vihanneksia kela,   g    m     l    ka, ve, kCouscousilla täytetty paprikaLime-kermaviilikastikePaahdettuja vihanneksia kela,   g    m     l    ka, ve, kPerunamuusi kela,   g   ka, k',
-     'Perjantaina 13.4.': 'Ravintola monttu lounas - perjantai 13.4.2018TeryakikananpoikakastikeJasmiiniriisi   g   ka, vePaahdetut juurekset   g   veJuurespihvitYrttiperuna kela,   g    m     l    ka, ve, k, vs, paprPaahdetut juurekset   g   veTartarkastike   g      l    k, se, vs' },
-  'unica-assarin-ullakko': 
-   { 'Keskiviikkona 11.4.': 'Juustoisia broileripuikkoja, currykastikettaKebabliha-kasviskastiketta, höyryriiisiäLine 3; chili-currysilakoita, jasminriisiäLine 3; thai-maustettua jauhelihakeittoaKvällens extra kl 18.00- ; sambal jauhelihapizzaaPäivän jälkiruoka; hedelmäsalaattia itämaiseen tapaan',
-     'Torstaina 12.4.': 'Broilerinugetteja, inkivääri-sitruunaruohomajoneesiaLine 3; kantarelli-pekonipiirakkaaDeli line 3, teriyaki lohta, paistettuja nuudeleita ja valkosipulimaustettuja vihreitä papujaLine 3; riisipuuroa thai basilikalla maustetun mansikkasurvoksen keraKvällens extra kl 18.00- ; júustokuorrutteisia jauhelihacannelonejaPäivän jälkiruoka;',
-     'Perjantaina 13.4.': 'Chili-kookosbroileria korealaisittain, jasminriisiäRosmariinilla maustettua maksaleikettä kermakastikkeessaLine 3; vietnamilaista liha-nuudelikeittoaLine 3; kylmäsavulohi-mozzarellapannupizzaa, osterimajoneesiaDeli kvällens extra kl 18.00- ; naudanfilehampurilainen, maalaisranskalaisiaPäivän jälkiruoka;',
-     'Lauantaina 14.4.': 'Line 1 & 2; täysjyväwrap; falafelpyöryköitä , härkäpapuhummusta , avocadoa ja tzatsikiaLine 3; mausteista bataatti-maissikeittoa ja luomutofuaLine 1 & 2; tuorejuusto-tomaatti-basilikatäytteistä broilerfilettä, chilikermaviilikastikettaDeli line 3; paistettua lohta , limemajoneesia, muhennettua perunaa ja wokkivihanneksiaLine 3; ohrasuurimopuuroa, mustikka-lakkakiisseliäPäivän jälkiruoka;' },
-  'mauno-deli': 
-   { 'Keskiviikkona 11.4.': 'Lounas klo 11-13Buffa10,40 € Maksava lounas sisältää kotiruokatyylisen pääruoan, alkusalaatin, itseleivottua leipää, juomaksi jäävettä sekä kahvia/teetä ja pienen jälkiruoan.',
-     'Torstaina 12.4.': 'Lounas klo 11-13Buffasta10,40 € Maksava lounas sisältää kotiruokatyylisen pääruoan, alkusalaatin, itseleivottua leipää, juomaksi jäävettä sekä kahvia/teetä ja pienen jälkiruoan.',
-     'Perjantaina 13.4.': 'Lounas klo 11-13Buffasta10,40 € Maksava lounas sisältää kotiruokatyylisen pääruoan, alkusalaatin, itseleivottua leipää, juomaksi jäävettä sekä kahvia/teetä ja pienen jälkiruoan.' },
-  'delhi-darbar': 
-   { 'Keskiviikkona 11.4.': '3.Keema matar keski vhava4. Katkarapu baltyMix-lautanen',
-     'Torstaina 12.4.': 'Vhava4. Goa katkarapu curryMix-lautanen',
-     'Perjantaina 13.4.': '1.Channa jalferzi2.Goa kana4Kfis paneeli5.Mix-lautanen' },
-  'ravintola-kuori': 
-   { 'Keskiviikkona 11.4.': 'FalafelbaariPaahdettua paprikakeittoa ja vihreitä papuja   g      l    vSalaattia vihreistä vihanneksista, punajuuri- couscousista sekä punajuurihummusta ja avokadoa    l    v',
-     'Torstaina 12.4.': 'FalafelbaariVihreä vuohenjuustokeittoa, tuoretta pinaattia ja ituja   g  Salaattia kukkakaalista, lehtikaalista, quinoasta sekä pesto-perunaa ja edamehummusta   g   v,    l   ',
-     'Perjantaina 13.4.': 'FalafelbaariYellow currykeittoa, sieniä , nuudeleita ja tofua   g   v,    l   Salaattia speltistä, munakoisosta, halloumista, paahdetusta tomaatista sekä harissa hummusta ja siemeniäMerkkien selitykset:    l    laktoositon, v= vegaaninen,   g  = gluteeniton' },
-  'unica-tottisalmi': 
-   { 'Keskiviikkona 11.4.': 'Korealaiset ribsit ja kimchiriisiäItämaista broileriaPorsasburritoKaribian kasvispihvit, ananasmajoneesiLate & iltapala klo 14.30-18.00;kebabwok',
-     'Torstaina 12.4.': 'Curry-kookosbroileriaVietnamilainen pho-naudanlihakeittoFalafelpyörykät, jogurttikastikeLisäkesalaattilounas, sis. perunaa, riisiä, salaatti- ja leipäpöydän antimet , levitteet ja ruokajuomanLate lunch & iltapala;klo 14.30-18.00; metsästäjän pannupihvi',
-     'Perjantaina 13.4.': 'Yakinikamarinoitua naudan eturintaa, japanilaista riisiäLime-kookoskuorrutettua koljaaLihaa ja kasviksia kiinalaisittainJapchae korealainen paistettu riisinuudeliLisäkesalaattilounas, sis. perunaa, riisiä, salaatti- ja leipäpöydän antimet , levitteet ja ruokajuoman',
-     'Lauantaina 14.4.': 'Hampurilaislauantai !! itsetäytettyä hampparia ja ranskalaisia perunoita. täytteet: salaatti, tomaatti, sipuli, suolakurkku, majoneesi, ketsuppiHampurilainen jauhelihapihvilläHampurilainen kalaleikkeelläHampurilainen kasvispihvillä' },
-  'veritas-stadion': 
-   { 'Keskiviikkona 11.4.': 'SalaattipöytäKalkkunanrintaa persiljavoilla ja riisiäPaistetut silakat ja perunamuhennostaNaudan ulkofilepihvi "stroganoff", paahdettuja punajuuria ja suolakurkkua',
-     'Torstaina 12.4.': 'SalaattipöytäRiistakäristystä ja perunamuhennostaLime-broileria ja kukkakaalisurvostaHiillostettua siikaa, mummonkurkkuja ja keitettyjä perunoita',
-     'Perjantaina 13.4.': 'SalaattipöytäJauheliha-nachos-salaatti juustokastikkeellaPaistettua kampelaa, katkaraputsatsikia ja keitettyjä perunoitaFriteerattuja porsaanposkia ja sitrusrisottoa' },
-  'unica-galilei': 
-   { 'Keskiviikkona 11.4.': '珍味 porsasta teryaki kastikkeessaPinaattiohukaisetCafe: porkkanasosekeittoCafe: 珍味 soijamarinoitu tofu & vermicellitSuklaaruutu vaahterasiirappikermalla sis. pähkinää',
-     'Torstaina 12.4.': 'Jauheliha-pastavuokaDeli:possun grillipihvi珍味 kasviksia punacurrykastikkeessaCafe: 珍味 aasialainen kookos-katkarapukeittoCafe: 珍味 kookosbroiler & sweet hot chili nuudelit珍味 grillattu hedelmäsalaatti',
-     'Perjantaina 13.4.': 'Pyttipannu, paistettu kananmuna珍味 kasviksia satay-kastikkeessa aasialaisittainCafe:珍味 tom yam keittoCafe: salaattibuffet珍味 lime-kookosvanukas' },
-  'gado-gado-lunch-party': 
-   { 'Keskiviikkona 11.4.': 'Laxbullar med remouladesås, potatisGrönsaksbiff på japanskt vis, teriyakimajonnäsKycklingnudelwok *Borschsoppa med nötkött, smetana *Borsjtjsoppa tofu *Gado bowl, litenGado bowl, storLate lunch meny kl. 16-19Feta- och grönsaksgratäng, ris *Griskött i sweet & sour sås, ris *',
-     'Torstaina 12.4.': 'Köttbullar med gräddsås, potatis *Champinjon- och tofulasagneÄrtsoppa med skinka *Vegetarisk ärtsoppa *Gados pannkaka med sylt & vispad gräddeGado bowl, storGado bowl, litenLate lunch meny kl. 16-19Laxpaella med grönsaker, rostad paprikasås *Orientalisk tofusås med grönsaker, ris',
-     'Perjantaina 13.4.': 'Pytt i panna *Pizza med mozzarella och grönsaker *Gado bowl, storGado bowl, liten' },
-  'hus-lindman': 
-   { 'Keskiviikkona 11.4.': 'Savulohilaatikko   g      l   Sahramikanaa ja basmatiriisiä   g      l   Kasvispyörykät & korianterijugurttia',
-     'Torstaina 12.4.': 'Turskaa ja kermaviilikastikettaGlaseerattua porsaan niskaa ja sinappikastiketta   g      l   Nyhtökauralasagnette    l   ',
-     'Perjantaina 13.4.': 'Päivän kala ja sitruunakastike   g      l   Riistakäristystä, pottuvoita ja puolukkahilloa   g      l   Linssimuhennos ja paahdettuja pähkinöitä   g      l   ' },
-  'cafe-fanriken': 
-   { 'Keskiviikkona 11.4.': 'Kyckling tandoorigryta med basmatiris *Varm quinoasallad med örtvinägrettFläsksås med lök *Sallad eller baguette från cafésidan fr.o .m  kl.10',
-     'Torstaina 12.4.': 'Jägarbiff *Bön- och grönsakskroketter med örtsås *Batat-morotspurésoppa med karelsk pirog, äggsmör *Batat-morotspurésoppa med krutongerSallad eller baguette från cafésidan fr.o .m  kl.10',
-     'Perjantaina 13.4.': 'Tgif pizza lax, aioli, rödlökSpenatlasagnette med valnötter&tofu *Sallad eller baguette från cafésidan fr.o .m  kl.10' },
-  'cafe-karen': 
-   { 'Keskiviikkona 11.4.': 'Pyttipanna med stekt ägg *Spenat-omelettrulle med skogssvampfyllning *Kokos-kycklingsoppa *',
-     'Torstaina 12.4.': 'Pasta med rökt lax *Pizza \'bolognese\' *Pannkaka, grädde och sylt *Vegan ärtsoppa *',
-     'Perjantaina 13.4.': 'Lax med pesto-gräddfilsåsBroiler-nudelwok *Vegan \'korv\'soppa' },
-  pinella: 
-   { 'Keskiviikkona 11.4.': 'Zucchini-vuohenjuustokeittoa ja päivän salaattiaUuniperunaa ja kylmäsavulohitäytettä    l      g  ',
-     'Torstaina 12.4.': 'Linssikeittoa ja päivän salaattiaMaissikananrintaa, sitruunapolentaa ja sipulikastiketta    l      g  ' },
-  'm-kitchen-cafe': 
-   { 'Keskiviikkona 11.4.': 'Mkitchenin kalakeittoa    l     G  Salvia broilerinrintaa, batatas bravas ja yrtti-sitruunakastiketta  m   G  Päivän keitto 8,00€Runsas salaattipöytä 10€Päivän lämmin lounasannos 10€ sisältää vihersalaatinKeitto+salaatti+lämmin annos 12€Lounaan yhteydessä vapaavalinnainen leivos 3€Kaikki vaihtoehdot sisältävät veden, oman leipomon leipää sekä Johan & Nyströmin L omu kahvin/ teen',
-     'Torstaina 12.4.': 'Tuoreella kurkumalla maustettua kanakeittoa  m   G  Tilliohrattoa, ruispaneroitua kampelaa ja tomaattikastiketta    l   Päivän keitto 8,00€Runsas salaattipöytä 10€Päivän lämmin lounasannos 10€ sisältää vihersalaatinKeitto+salaatti+lämmin annos 12€Lounaan yhteydessä vapaavalinnainen leivos 3€Kaikki vaihtoehdot sisältävät veden, oman leipomon leipää sekä Johan & Nyströmin Luomu kahvin/ teen',
-     'Perjantaina 13.4.': 'Palsternakka- parsakaalisosekeittoa ja piparjuuricremeä    l     G  Pähkinäpaahdettua lohta, pinaatticrepes ja tahinilla maustettu jogurttikastike    l   Päivän keitto 8,00€Runsas salaattipöytä 10€Päivän lämmin lounasannos 10€ sisältää vihersalaatinKeitto+salaatti+lämmin annos 12€Lounaan yhteydessä vapaavalinnainen leivos 3€Kaikki vaihtoehdot sisältävät veden, oman leipomon leipää sekä Johan & Nyströmin Luomu kahvin/ teen' } }
+const lounasData = data;
 
 class App extends Component {
   constructor() {
     super();
     this.state = {queryKeyword : '',
-      searchableItems : testObject //tähän pitää vaihtaa tyhjä ja mountissa laittaa oikea data
+       formattedResult: []
     };
+    this.searchableItems = ''; 
     this.results = {};
-    this.formattedResult = [];
+    
   }
-  //haetaan data serveri apin avulla kun sivu aukeaa
-  //serverissä pitää vaika db:n avulla luoda aina json tiedosto, joka tarjotaan sitten api polun kautta
-  //ei mitään hajua toimiiko tä, mutta ainakin perusidea siinä, niinkun aina. Eli componentDidMount() tapahtuu kun sivu
-  //avataan, axios muuttaa jsonin automaattisesti objectiksi, ja se tallennetaan stateen, josta react sitä sitten voi
-  //manipuloida.
-  componenDidMount() {
-    axios.get('SERVERIAPINOSOITETÄHÄN.json').then(res => {
-      const lounasData = res;
-      this.state.searchableItems = lounasData;
-    });
+  //localissa oleva json tiedosto vaain, helpointa, mountissa lisätään json:in data
+  componentDidMount() {
+    this.searchableItems = lounasData;
   }
   
-  //paskaa algoritmii
+  //paskaa "algoritmii"
   handleQuery = (e) => {
     this.results = {};
     this.setState({queryKeyword : e.target.value});
@@ -155,7 +29,7 @@ class App extends Component {
   }
   searchItems = (e) => {
     console.log(this.results);
-    let object = this.state.searchableItems;
+    let object = this.searchableItems;
     for (let ravintola in object) {
       for (let paiva in object[ravintola]) {
       if (object[ravintola][paiva].includes(e) && e !== '' && e.length > 3) {
@@ -168,9 +42,9 @@ class App extends Component {
  formatResult = (e) => {
    let resultHTML = [];
    for (let ravintola in e) {
-     resultHTML.push(<li className="ravintola-match" key={ravintola}>Löytyy ravintolasta: {ravintola}</li>);
+     resultHTML.push(<li className="ravintola-match" key={ravintola} id={ravintola}>Löytyy ravintolasta: {ravintola}</li>);
    }
-   this.formattedResult = resultHTML;
+   this.setState({formattedResult : resultHTML});
  }
  
   render() {
@@ -179,8 +53,8 @@ class App extends Component {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
         <input type="text" value={this.state.queryKeyword} onChange={this.handleQuery}/>
-        <ul>{this.formattedResult}</ul>
-        <p>{this.state.queryKeyword}</p>
+        <p>Hakusana: {this.state.queryKeyword}</p>
+        <ul>{this.state.formattedResult}</ul>
       </div>
     );
   }
