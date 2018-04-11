@@ -2,6 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const schedule = require('node-schedule');
 const sqlite3 = require('sqlite3');
+const fs = require('fs');
 
 	
 let db = new sqlite3.Database('db/lounasdb.db');
@@ -102,7 +103,7 @@ function formatAndSendData(data) {
     //sqllähetä data
     console.log(data);
     let sqlLauseke = "INSERT INTO lounaat(pvm, info) VALUES(" + '"'+today.toString()+'"' + ', ' + "'"+data+"'"+')';
-    db.run(sqlLauseke, function(err) {
+   db.run(sqlLauseke, function(err) {
     if (err) {
       return console.log(err.message);
     }
@@ -115,11 +116,20 @@ function formatAndSendData(data) {
     console.log(row.pvm);
   });
   });
-  
+  let location = '../src/luonastiedot.json'
+  createJSONFile(data, location);
   
 }
 
+function createJSONFile(JSONString, fileLocation) {
+    fs.writeFile(fileLocation, JSONString, function(err) {
+    if(err) {
+        return console.log(err);
+    }
 
+    console.log("The file was saved!");
+    });
+}
 
 function deleteData(date, data) {
     for (var item in data) {
@@ -132,12 +142,8 @@ function deleteData(date, data) {
     lounaatData = data;
     data = JSON.stringify(data);
     let today = new Date();
-    let sqlLauseke = "INSERT INTO lounaat(pvm, info) VALUES(" + '"'+today.toString()+'"' + ', ' + "'"+data+"'"+')';
-    db.run(sqlLauseke, function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
-    });
+    let location = '../src/luonastiedot.json';
+    createJSONFile(data, location);
     //lähetä uusi data treactinn
 }
 
