@@ -1,34 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Nav, Navbar, NavItem} from 'react-bootstrap';
+import {Route, NavLink, HashRouter} from 'react-router-dom';
+import About from './about';
+import Guide from './guide';
+import Home from './home';
 import './App.css';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {value : ''}
-  } 
-  handleChange = (e) => {
-    this.setState({value: e.target.value});
-  }
   render() {
     return (
-      
+      <HashRouter>
       <div className="App">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <div>
-          <input type="text" value={this.state.value} onChange={this.handleChange}/>
-          <div>{this.state.value}</div>
-        </div>
-      </div>
       
+      <Navbar>
+      <Navbar.Header>
+      <Navbar.Brand>
+      
+      <NavLink to="/">App</NavLink>
+      </Navbar.Brand>
+      </Navbar.Header>
+
+      <Nav pullRight>
+      <NavItem>
+      <NavLink className="btn btn-default" to="/about">About</NavLink>
+      </NavItem>
+      <NavItem>
+      <NavLink className="btn btn-default" to="/guide">Guide</NavLink>
+      </NavItem>
+      
+      </Nav>
+    </Navbar>;
+    
+    <div className="content">
+          <div>
+            <Route exact path="/" component={Home}/>
+            <Route path="/about" component={About}/>
+            <Route path="/guide" component={Guide}/>
+          </div>
+     </div>
+     </div>
+    </HashRouter> 
     );
   }
 }

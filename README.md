@@ -15,6 +15,10 @@ Saa kaikki dependenciet.
 Tämän jälkeen vaihda filut niihin, jotka löytyvät gitistä.
 
 clientti käyntiin npm start
+
+npm install --save react-bootstrap
+
+npm install --save react-router-dom
 -------------------------------------------------------------------------------------------------------------------------------------
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
