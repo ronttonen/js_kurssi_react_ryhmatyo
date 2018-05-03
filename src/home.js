@@ -28,22 +28,34 @@ class Home extends Component {
     this.searchItems(e.target.value);
   }
   searchItems = (e) => {
-    console.log(this.results);
+
     let object = this.searchableItems;
     for (let ravintola in object) {
       for (let paiva in object[ravintola]) {
       if (object[ravintola][paiva].includes(e) && e !== '' && e.length > 3) {
-        this.results[ravintola] = object[ravintola][paiva];
-      }
+                if (typeof this.results[paiva] === "undefined") {
+          this.results[paiva] = {};
+        }
+        this.results[paiva][ravintola] = object[ravintola][paiva];
       }
     }
     this.formatResult(this.results);
   }
+  }
+
  formatResult = (e) => {
    let resultHTML = [];
-   for (let ravintola in e) {
-     resultHTML.push(<li className="ravintola-match" key={ravintola} id={ravintola}>Löytyy ravintolasta: {ravintola}</li>);
+   console.log(e);
+   for (let paiva in e){
+     var i = 0;
+     for (let ravintola in e[paiva]) {
+       var click = "onClick={openInfo}";
+       var url = 'https://www.lounaat.info/lounas/'+ ravintola +'/turku';
+       resultHTML.push(<li className="ravintola-match" key={ravintola} id={ravintola}>Löytyy ravintolasta: <a href={url} >{ravintola}</a>, Päivänä: {paiva}</li>);
+       i++;
+     }
    }
+
    this.setState({formattedResult : resultHTML});
  } 
  
@@ -52,7 +64,7 @@ class Home extends Component {
       <div className="App">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
-        <input type="text" value={this.state.queryKeyword} onChange={this.handleQuery}/>
+        <input type="text" value={this.state.queryKeyword} onChange={this.handleQuery} autoFocus/>
         <p>Hakusana: {this.state.queryKeyword}</p>
         
         <ul>{this.state.formattedResult}</ul>
